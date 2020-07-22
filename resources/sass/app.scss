@@ -1,24 +1,14 @@
-// Bootstrap
-@import "../../node_modules/bootstrap/scss/bootstrap";
-@import "../../node_modules/font-awesome/scss/font-awesome";
-@import "../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+@tailwind base;
 
-/*
- * Dashboard
- */
+@tailwind components;
 
-header {
-  padding: 30px 0;
-}
+@tailwind utilities;
 
-section {
-  padding: 30px 0;
-}
+@import './lib/nprogress';
 
-.has-shadow {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-}
+@import './_variables';
+@import './components/authnav';
 
-.show > .dropdown-menu {
-  display: block;
+input:invalid {
+    box-shadow: none;
 }

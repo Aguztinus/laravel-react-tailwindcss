@@ -1,4 +1,7 @@
-const mix = require('laravel-mix')
+let mix = require('laravel-mix');
+
+require('laravel-mix-tailwind');
+require('laravel-mix-purgecss');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -10,46 +13,15 @@ const mix = require('laravel-mix')
  |
  */
 
-
-const RemovePlugin = require('remove-files-webpack-plugin');
-
-const removePlugin = new RemovePlugin({
-
-  before: {
-    test: [
-      {
-        folder: 'public',
-        method: (filePath) => {
-          return new RegExp(/(?:.*\.js|.*\.map|mix-manifest\.json)$/, 'm').test(filePath);
-        }
-      },
-      {
-        folder: 'public/js',
-        method: (filePath) => {
-          return new RegExp(/(?:.*\.js|.*\.map)$/, 'm').test(filePath);
-        },
-        recursive: true
-      },
-      {
-        folder: 'public/css',
-        method: (filePath) => {
-          return new RegExp(/(?:.*\.css|.*\.map)$/, 'm').test(filePath);
-        }
-      }
-    ]
-  },
-
-  after: {}
-})
-
-mix.webpackConfig({
-  plugins: [ removePlugin ],
-
-  node: {
-    fs: 'empty'
-  },
-});
-  mix.react('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .sourceMaps(false, 'source-map')
-    .version();
+mix.react('resources/js/app.js', 'public/js')
+  .sass('resources/sass/app.scss', 'public/css')
+  .purgeCss()
+  .tailwind('tailwind.config.js')
+  .webpackConfig({
+    externals: [
+      'child_process'
+    ],
+    node: {
+      fs: 'empty'
+    }
+  }).sourceMaps();

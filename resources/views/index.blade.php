@@ -1,30 +1,34 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ app()->getLocale() }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <base href="/" />
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel 5.8 with React 16 Boilerplate') }}</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Styles -->
-    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     <!-- Scripts -->
     <script>
+        window.App = {!! json_encode([
+            'name' => config('app.name')
+        ]) !!};
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
-</head>
-<body>
-<div id="app">
-    @yield('content')
-</div>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
-<!-- Scripts -->
-<script src="{{ mix('/js/app.js') }}"></script>
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+</head>
+
+<body class="font-sans h-full text-grey-darkest">
+    <div id="app" class="flex flex-col">
+    </div>
 </body>
+
 </html>
