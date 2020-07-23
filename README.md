@@ -1,15 +1,17 @@
-# Laravel-React SPA
+# Laravel-React-Tailwind SPA Boilerplate
 
 Starter Boilerplate SPA made with Laravel and React.
 
 ## Features
 
-- Laravel 7, React, React Router
+- Laravel 7
+- Axios
 - React Hook, React Context for state management
-- Authentication with JWT
+- Authentication with Oauth2
 - Login, register, reset password
 - Flexible Page Layout
 - Flexible, Protected Routing
+- Sass
 - Tailwind CSS
 - ESlint
 
@@ -32,7 +34,7 @@ php artisan key:generate
 - Run database migration
 
 ```bash
-php artisan migrate:fresh
+php artisan cron:refresh-database
 ```
 
 - Generate JWT secret

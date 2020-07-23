@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
+use App\Http\Resources\UserResource;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -31,10 +33,19 @@ class LoginController extends Controller
         $data = json_decode($response->getContent(), true);
 
         if (!$response->isOk()) {
+           
             return response()->json($data, 401);
         }
 
-        return $data;
+        $user = User::where('email', $input['email'])->first();
+        $datauser = (new UserResource($user))
+        ->additional([
+            'meta' => [
+                'token' => $data['access_token']
+            ]
+        ]);
+
+        return $datauser;
     }
 
     public function logout(Request $request)

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
-use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Route;
+use App\Http\Resources\UserResource;
 
 class RegisterController extends Controller
 {
@@ -22,23 +22,31 @@ class RegisterController extends Controller
         ]);
 
         try {
-            event(new Registered($this->create($request->all())));
-
-            $http = new Client;
-
-            $response = $http->post(env('APP_URL') . '/oauth/token', [
-                'form_params' => [
-                    'grant_type' => 'password',
-                    'client_id' => env('PASSWORD_CLIENT_ID'),
-                    'client_secret' => env('PASSWORD_CLIENT_SECRET'),
-                    'username' => $request->get('email'),
-                    'password' => $request->get('password'),
-                    'remember' => false,
-                    'scope' => '',
-                ],
+            $user = User::create([
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'password' => bcrypt($request['password']),
             ]);
 
-            return json_decode((string)$response->getBody(), true);
+            request()->request->add([
+                'grant_type' => 'password',
+                'client_id' => env('PASSWORD_CLIENT_ID'),
+                'client_secret' => env('PASSWORD_CLIENT_SECRET'),
+                'username' => $request['email'],
+                'password' => $request['password'],
+            ]);
+
+            $response = Route::dispatch(Request::create('/oauth/token', 'POST'));
+
+            $data = json_decode($response->getContent(), true);
+            $datauser = (new UserResource($user))
+            ->additional([
+                'meta' => [
+                    'token' => $data['access_token']
+                ]
+            ]);
+
+            return $datauser;
         } catch (\Exception $e) {
             dd($e->getMessage(), $e->getCode(), $e->getTrace());
             return response()->json([
