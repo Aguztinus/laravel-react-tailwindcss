@@ -3,8 +3,10 @@ import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../../context/auth';
 import { login } from '../../api/auth';
 import { getIntendedUrl } from '../../utils/auth';
+import { toast } from 'react-toastify';
 import useInputValue from '../../components/input-value';
 
+toast.configure();
 function Login() {
 	let { setCurrentUser, setToken } = useAuth();
 	let history = useHistory();
@@ -24,6 +26,7 @@ function Login() {
 				history.push(getIntendedUrl());
 			})
 			.catch((error) => {
+				toast.error(error.response.data.message);
 				[ email, password ].forEach(({ parseServerError }) => parseServerError(error.response.data.errors));
 			});
 	};
