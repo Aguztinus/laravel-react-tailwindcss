@@ -37,12 +37,6 @@ php artisan key:generate
 php artisan cron:refresh-database
 ```
 
-- Generate JWT secret
-
-```bash
-php artisan jwt:secret
-```
-
 - Compiling Assets
 
 ```bash
