@@ -38,6 +38,6 @@
     "dependencies": {
         "axios": "^0.19.2",
         "laravel-mix-tailwind": "^0.1.0",
-        "react-toastify": "^6.0.8"
+        "sweetalert2": "^9.17.1"
     }
 }

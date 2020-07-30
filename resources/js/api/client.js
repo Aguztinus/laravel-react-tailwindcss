@@ -33,7 +33,7 @@ function Client(endpoint, { method, body, ...customConfig } = {}) {
 		config.data = body;
 	}
 
-	if (method === 'GET') {
+	if (method) {
 		requestsCounter++;
 		NProgress.start();
 	}

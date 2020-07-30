@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../context/auth';
-import { setIntendedUrl } from '../utils/auth';
+import { setIntendedUrl, setUser } from '../utils/auth';
 
 function AuthNav () {
   let {setCurrentUser, setToken, currentUser} = useAuth();
@@ -14,6 +14,7 @@ function AuthNav () {
   const handleLogout = () => {
     setCurrentUser(null);
     setToken(null);
+    setUser(null);
     history.push('/');
     setIntendedUrl(null);
   };

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../../context/auth';
 import { register } from '../../api/auth';
+import { setUser } from '../../utils/auth';
 import useInputValue from '../../components/input-value';
 
 function Register() {
@@ -24,6 +25,7 @@ function Register() {
 			.then(({ user, token }) => {
 				setCurrentUser(user);
 				setToken(token);
+				setUser(user);
 				history.push('/home');
 			})
 			.catch((error) => {
